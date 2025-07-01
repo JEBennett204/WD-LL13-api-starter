@@ -20,11 +20,42 @@ It’s just here to help Copilot support you better.
 Start your code below 👇
 */
 
+// Select the card body and button elements
+const factOutput = document.getElementById("fact-output");
+const factBtn = document.getElementById("new-fact-btn");
 
+// Show a placeholder before the first click
+factOutput.innerHTML = "Click the button to see a fun fact!";
 
+// Function to fetch and display a fun fact
+function fetchFunFact() {
+  // Show loading message
+  factOutput.innerHTML = "Loading a fun fact...";
+  // Fetch from the Useless Facts API
+  fetch('https://uselessfacts.jsph.pl/random.json?language=en')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      // Animate the fact in the card
+      factOutput.innerHTML = `<span>${data.text}</span>`;
+      factOutput.classList.remove("grow-in"); // Reset animation
+      // Force reflow to restart animation
+      void factOutput.offsetWidth;
+      factOutput.classList.add("grow-in");
+    })
+    .catch(function(error) {
+      // Show a user-friendly error message
+      factOutput.innerHTML = "Oops! Couldn't load a fact.";
+      factOutput.classList.remove("grow-in");
+      void factOutput.offsetWidth;
+      factOutput.classList.add("grow-in");
+      console.error("Error fetching data:", error);
+    });
+}
 
-// Use this script to write your fetch logic
-// You'll fetch data from your selected API and display it on the page
+// Button click event to fetch a new fact
+factBtn.addEventListener("click", fetchFunFact);
 
-// Example placeholder:
-console.log("Team activity starter code loaded.");
+// Optionally, fetch a fact on first load (uncomment to auto-load)
+// fetchFunFact();
