@@ -57,5 +57,5 @@ function fetchFunFact() {
 // Button click event to fetch a new fact
 factBtn.addEventListener("click", fetchFunFact);
 
-// Optionally, fetch a fact on first load (uncomment to auto-load)
-// fetchFunFact();
+// Fetch a fact on first load
+fetchFunFact();
